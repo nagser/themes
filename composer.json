@@ -1,0 +1,31 @@
+{
+    "name": "nagser/themes",
+    "type": "yii2-extension",
+
+    "description": "Module display themes list in GridView widget",
+    "keywords": ["nagser"],
+    "license": "GPL-3.0+",
+    "support": {
+        "source": "https://github.com/nagser/themes"
+    },
+    "authors": [
+        {
+            "name": "NagSer",
+            "email": "tech@eventarium.pro"
+        }
+    ],
+
+    "require": {
+        "yiisoft/yii2": "2.0.*",
+        "nagser/base": "dev-master"
+    },
+
+    "autoload": {
+        "psr-4": {
+            "nagser\\themes\\": ""
+        }
+    },
+    "extra": {
+        "bootstrap": "nagser\\themes\\Bootstrap"
+    }
+}
