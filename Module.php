@@ -1,11 +1,9 @@
 <?php
 
-namespace app\modules\themes;
+namespace nagser\themes;
 
-use app\base\CustomModule;
+class Module extends \nagser\base\Module {
 
-class Module extends CustomModule {
-
-    public $controllerNamespace = 'app\modules\themes\controllers';
+    public $controllerNamespace = 'nagser\themes\controllers';
 
 }

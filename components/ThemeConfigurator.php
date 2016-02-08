@@ -1,6 +1,6 @@
 <?php
 
-namespace app\modules\themes\components;
+namespace nagser\themes\components;
 
 use nagser\base\helpers\FileHelper;
 use yii\base\Component;

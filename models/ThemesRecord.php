@@ -1,14 +1,13 @@
 <?php
 
-namespace app\modules\themes\models;
+namespace nagser\themes\models;
 
-use app\base\CustomModel;
-use app\base\helpers\CustomFileHelper;
+use nagser\base\helpers\FileHelper;
+use nagser\base\models\Model;
 use Yii;
-use yii\helpers\FileHelper;
 use yii\web\NotFoundHttpException;
 
-class ThemesModel extends CustomModel
+class ThemesRecord extends Model
 {
 
     /**
@@ -30,7 +29,6 @@ class ThemesModel extends CustomModel
         return [
             [['name', 'dir', 'link'], 'string'],
             [['name', 'dir'], 'required'],
-//            ['additional', 'each', 'rule' => ['string']],
             ['dir', function ($attribute, $params) {
                 array_search($this->$attribute, $this->getThemesList()) and $this->addError($attribute, Yii::t('themes', 'Theme directory "{directory}" already exist', ['directory' => $this->$attribute]));
             }]
@@ -67,7 +65,7 @@ class ThemesModel extends CustomModel
         $data = [];
         $dirs = $this->getThemesList();
         foreach ($dirs as $dir) {
-            $data[] = CustomFileHelper::requireFile(\Yii::getAlias('@themes') . '/' . $dir . '/config.php');//Считываем конфиг темы
+            $data[] = FileHelper::requireFile(\Yii::getAlias('@themes') . '/' . $dir . '/config.php');//Считываем конфиг темы
         }
         return $data;
     }
@@ -97,7 +95,7 @@ class ThemesModel extends CustomModel
      */
     public function findRecordModel($id)
     {
-        $config = CustomFileHelper::requireFile(\Yii::getAlias('@themes') . '/' . $id . '/config.php');
+        $config = FileHelper::requireFile(\Yii::getAlias('@themes') . '/' . $id . '/config.php');
         if ($this->load(['theme' => $config], 'theme')) {
             return $this;
         } else {

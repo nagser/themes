@@ -1,9 +1,8 @@
 <?php
 
-namespace app\modules\themes\controllers;
+namespace nagser\themes\controllers;
 
-use app\base\CustomAdminController;
-use app\modules\themes\models\ThemesModel;
+use nagser\themes\models\ThemesRecord;
 use kartik\form\ActiveForm;
 use yii\data\ArrayDataProvider;
 use yii\filters\AccessControl;
@@ -11,7 +10,7 @@ use yii\helpers\ArrayHelper;
 use yii\helpers\Url;
 use yii\web\Response;
 
-class AdminController extends CustomAdminController {
+class AdminController extends \nagser\base\controllers\AdminController {
 
     public function behaviors(){
         return ArrayHelper::merge(parent::behaviors(), [
@@ -48,33 +47,44 @@ class AdminController extends CustomAdminController {
         ]);
     }
 
+    /**
+     * Геттер для модели
+     * @return string
+     * */
+    protected function getModel()
+    {
+        return ArrayHelper::getValue($this->module->modelMap, 'ThemesRecord');
+    }
+
     public function actionIndex(){
-        $themesModel = new ThemesModel();
+        $model = \Yii::createObject($this->model);
         $dataProvider = new ArrayDataProvider([
             'key'=>'dir',
-            'allModels' => $themesModel->getThemeProvider(),
+            'allModels' => $model->getThemeProvider(),
         ]);
         return $this->render('index', [
             'dataProvider' => $dataProvider,
-            'model' => $themesModel
+            'model' => $model
         ]);
     }
 
     public function actionCopy($id){
-        $themesModel = (new ThemesModel())->findRecordModel($id);
+        $model = \Yii::createObject($this->model);
+        /** @var ThemesRecord $model **/
+        $model = $model->findRecordModel($id);
         if (\Yii::$app->request->isAjax) {
-            if($themesModel->load(\Yii::$app->request->post())){
+            if($model->load(\Yii::$app->request->post())){
                 \Yii::$app->response->format = Response::FORMAT_JSON;
-                return ActiveForm::validate($themesModel);
+                return ActiveForm::validate($model);
             } else {
                 return $this->renderAjax('copy', [
-                    'model' => $themesModel,
+                    'model' => $model,
                 ]);
             }
         } else {
-            if($themesModel->load(\Yii::$app->request->post())){
-                $themesModel->copy($id);
-                $this->redirect(Url::to(['view', 'id' => $themesModel->dir]));
+            if($model->load(\Yii::$app->request->post())){
+                $model->copy($id);
+                $this->redirect(Url::to(['view', 'id' => $model->dir]));
             }
         }
     }

@@ -1,6 +1,6 @@
 <?php
 
-/** @var $model app\modules\themes\models\ThemesModel**/
+/** @var $model nagser\themes\models\ThemesRecord**/
 use kartik\form\ActiveForm;
 
 ?>
